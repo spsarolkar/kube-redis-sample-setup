@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fortune-teller
+  namespace: web
+  labels:
+    app: fortune-teller
+spec:
+  replicas: 3 
+  selector:
+    matchLabels:
+      app: fortune-teller
+  template:
+    metadata:
+      labels:
+        app: fortune-teller
+    spec:
+      containers:
+      - name: fortune-teller
+        image: spsarolkar/fortune-teller:2.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: http
+        resources:
+          limits:
+             cpu: 500m
+             memory: 700Mi
+          requests:
+             cpu: 100m
+             memory: 300Mi
+        env:
+          - name: COWSAY_SERVER_NAME
+            value: 'cowsay-deamon'
+          - name: COWSAY_SERVER_PORT
+            value: '8000'
+          - name: REDIS_MASTER_NAME
+            value: 'redis-primary'
+          - name: MASTER_SENTINEL_PORT
+            value: '26379'
+          - name: REDIS_REPLICA_NAME
+            value: 'redis-secondary'
+          - name: REPLICA_SENTINEL_PORT
+            value: '26379'
+          - name: REDIS_SENTINEL_MASTER_GROUP
+            value: 'mymaster'

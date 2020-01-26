@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-secondary
+  namespace: web
+  labels:
+    app: redis-secondary
+spec:
+  selector:
+    matchLabels:
+      app: redis-secondary
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: redis-secondary
+    spec:
+      containers:
+      - name: replica
+        image: spsarolkar/replica-sentinel:1.0
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+        - name: REDIS_MASTER_SERVICE_HOST
+          value: redis-primary
+        - name: REDIS_MASTER_SERVICE_PORT
+          value: "6379"
+        - name: SENTINEL_ANNOUNCE_PORT
+          value: "26379"
+        - name: MY_POD_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.podIP
+        ports:
+        - containerPort: 26379
+          name: redis-sentinel

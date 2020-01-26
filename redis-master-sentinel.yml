@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis-primary
+  namespace: web
+  labels:
+    app: redis-primary
+spec:
+  selector:
+     matchLabels:
+        app: redis-primary
+  replicas: 1
+  template:
+    metadata:
+      labels:
+         app: redis-primary
+    spec:
+      containers:
+      - name: redis
+        image: spsarolkar/master-sentinel:1.0
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+        env:
+          - name: MY_POD_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.podIP
+          - name: MASTER_ANNOUNCE_PORT
+            value: "6379"
+          - name: SENTINEL_ANNOUNCE_PORT
+            value: "26379"
+        ports:
+        - containerPort: 6379
+          name: redis-master
+        - containerPort: 26379
+          name: redis-sentinel

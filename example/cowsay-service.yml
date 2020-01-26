@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: cowsay-deamon
+  namespace: web
+spec:
+  ports:
+     - name: http
+       protocol: TCP
+       port: 8000
+       targetPort: http
+  selector:
+      app: cowsay-deployment

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cowsay-deployment
+  namespace: web
+  labels:
+    app: cowsay-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: cowsay-deployment
+  template:
+    metadata:
+      labels:
+        app: cowsay-deployment
+    spec:
+      containers:
+      - name: cowsay-deployment
+        image: spsarolkar/cowsay:2.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+          name: http
+        resources:
+          limits:
+             cpu: 200m
+             memory: 300Mi
+          requests:
+             cpu: 200m
+             memory: 300Mi

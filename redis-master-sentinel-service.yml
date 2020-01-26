@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-primary
+  namespace: web
+spec:
+  ports:
+  - port: 6379
+    targetPort: 6379
+    name: redis-master
+  - port: 26379
+    targetPort: 26379
+    name: redis-sentinel
+  selector:
+    app: redis-primary
