@@ -21,19 +21,19 @@
     </style>
 </head>
 <body>
-
-
-
+UI server name- <span class="card-header text-danger" th:text="${serverName}" /> Remote server name- <span class="card-header text-danger" th:text="${remoteServerName}" />
 <div class="container">
     <div class="col-sm-12">
-            <div class="card text-white bg-dark mb-3 border border-warning rounded shadow-lg mt-3">
-                <div class="card-header text-danger" th:text="'UI server name- '+${serverName}+' Remote server name-'+${remoteServerName}" />
-                <div class="card-body">
-                    <h5 class="card-title bg-warning  p-2 text-dark" th:text=" 'Welcome '+${userName}" />
-                    <pre class="card-text text-light cowsay" th:text="${message}" />
-                </div>
+        <div class="card text-white bg-dark mb-3 border border-warning rounded shadow-lg mt-3">
+            <div class="card-body">
+                <h5 class="card-title bg-warning  p-2 text-dark" th:text=" 'Welcome '+${userName}" />
+                <pre class="card-text text-light cowsay" th:text="${message}" />
             </div>
         </div>
+    </div>
+    <div class="alert alert-info" role="alert">
+        This web application is to demonstration for kubernetes and  redis setup for redis High availability, to know more visit blog post <a href="https://spsarolkar.github.io/redis/high-availability/sentinel/kubernetes/2019/12/29/Configuring-Redis-High-Availability-Sentinel-Configuration.html" class="alert-link">Redis setup with kubernetes</a>. <i>***Developed by <a href="https://stackoverflow.com/users/138604/xinus">Sunil Sarolkar</a></i>
+    </div>
 </div>
 
 <!-- Optional JavaScript -->
