@@ -1,0 +1,4 @@
+You can ssh into the VM by finding the IP (from kubectl config view) and using username "docker" password "tcuser":
+
+
+sudo virsh console minikube
