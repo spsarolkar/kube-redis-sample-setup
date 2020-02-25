@@ -1,0 +1,31 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+  namespace: web
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: spsarolkar@gmail.com
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    - http01:
+        ingress:
+                class: nginx
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: fortune-teller-ingress
+  namespace: web
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+  - hosts:
+    - gcp-kube-demo.sunilsarolkar.com
+    secretName: fortune-teller-tls-prod
+  backend:
+    serviceName: fortune-teller-service
+    servicePort: 80

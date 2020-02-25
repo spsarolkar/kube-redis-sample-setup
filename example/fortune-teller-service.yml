@@ -4,12 +4,10 @@ metadata:
   name: fortune-teller-service
   namespace: web
 spec:
-  type: LoadBalancer
   ports:
      - name: http
        protocol: TCP
        port: 80
        targetPort: 8080
-       nodePort: 31737
   selector:
       app: fortune-teller
