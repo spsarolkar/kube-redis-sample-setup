@@ -18,7 +18,7 @@ spec:
       containers:
       - name: fortune-teller
         image: spsarolkar/fortune-teller:2.0
-        imagePullPolicy: IfNotPresent
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
           name: http

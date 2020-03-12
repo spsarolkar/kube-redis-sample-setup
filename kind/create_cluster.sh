@@ -20,8 +20,9 @@ nodes:
     hostPort: 443 
     protocol: TCP
 EOF
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/mandatory.yaml
-kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.29.0/deploy/static/provider/baremetal/service-nodeport.yaml
+
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.30.0/deploy/static/mandatory.yaml
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/nginx-0.30.0/deploy/static/provider/baremetal/service-nodeport.yaml
 
 cat <<EOF | kubectl patch deployments -n ingress-nginx nginx-ingress-controller -p '{
   "spec": {
@@ -58,4 +59,6 @@ cat <<EOF | kubectl patch deployments -n ingress-nginx nginx-ingress-controller 
 }'
 EOF
 
-helm install cert-manager --namespace kube-system jetstack/cert-manager --version v0.13.1
+
+helm repo add jetstack https://charts.jetstack.io
+helm install cert-manager --namespace cert-manager jetstack/cert-manager --version v0.14.0
