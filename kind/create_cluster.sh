@@ -60,5 +60,20 @@ cat <<EOF | kubectl patch deployments -n ingress-nginx nginx-ingress-controller 
 EOF
 
 
+kubectl apply --validate=false -f https://github.com/jetstack/cert-manager/releases/download/v0.14.0/cert-manager.crds.yaml
 helm repo add jetstack https://charts.jetstack.io
 helm install cert-manager --namespace cert-manager jetstack/cert-manager --version v0.14.0
+
+
+while [[ $(kubectl -n cert-manager get deployment cert-manager -o=jsonpath='{.status.conditions[?(@.type=="Available")].status}') != "True" ]];
+do
+	echo "waiting for cert-manager" && sleep 10;
+done
+while [[ $(kubectl -n cert-manager get deployment cert-manager-cainjector -o=jsonpath='{.status.conditions[?(@.type=="Available")].status}') != "True" ]];
+do
+	echo "waiting for cert-manager-cainjector" && sleep 5;
+done
+while [[ $(kubectl -n cert-manager get deployment cert-manager-webhook -o=jsonpath='{.status.conditions[?(@.type=="Available")].status}') != "True" ]];
+do
+	echo "waiting for cert-manager-webhook" && sleep 2;
+done
